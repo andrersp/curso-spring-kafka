@@ -20,7 +20,7 @@ import com.portal.api.dto.CarPostDTO;
 @Configuration
 public class KafkaProducerConfiguration {
 
-    @Value("${spring-kafka.bootstrap-servers}")
+    @Value("${spring.kafka.bootstrap-servers}")
     private String bootStrapServer;
 
     @Bean
