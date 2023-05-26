@@ -30,7 +30,7 @@ public class CarPostController {
 
     @GetMapping("/posts")
     public ResponseEntity<List<CarPostDTO>> getCarSales() {
-        return ResponseEntity.status(HttpStatus.FOUND).body(carPostStoreService.getCarForSales());
+        return ResponseEntity.status(HttpStatus.OK).body(carPostStoreService.getCarForSales());
     }
 
     @PutMapping("/{id}")
