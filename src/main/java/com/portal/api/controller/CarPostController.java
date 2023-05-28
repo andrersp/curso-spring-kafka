@@ -20,6 +20,8 @@ import com.portal.api.dto.CarPostDTO;
 import com.portal.api.message.KafkaProducerMessage;
 import com.portal.api.service.CarPostStoreService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/car")
 public class CarPostController {
@@ -50,7 +52,7 @@ public class CarPostController {
     }
 
     @PostMapping("/post")
-    public ResponseEntity postCarForSale(@RequestBody CarPostDTO carPostDTO) {
+    public ResponseEntity postCarForSale(@Valid @RequestBody CarPostDTO carPostDTO) {
         LOG.info("MAIN REST API  -> Produce Car Post information: {}", carPostDTO);
         kafkaProducerMessage.sendMessage(carPostDTO);
         return new ResponseEntity<>(HttpStatus.OK);
