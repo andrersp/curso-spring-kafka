@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -14,28 +15,28 @@ import com.portal.api.dto.OwnerPostDTO;
 
 @Component
 public class CarPostStoreClient {
-    private final String USER_STORE_SERVICE_URI = "http://localhost:8080/user";
-    private final String POSTS_STORE_SERVICE_URI = "http://localhost:8080/sales";
+    @Value("${STORE_SERVICE_URI}")
+    private String storeCarURI;
 
     @Autowired
     RestTemplate restTemplate;
 
     public List<CarPostDTO> carForSalesClient() {
-        ResponseEntity<CarPostDTO[]> responseEntity = restTemplate.getForEntity(POSTS_STORE_SERVICE_URI + "/cars",
+        ResponseEntity<CarPostDTO[]> responseEntity = restTemplate.getForEntity(storeCarURI + "/sales/cars",
                 CarPostDTO[].class);
         return Arrays.asList(Objects.requireNonNull(responseEntity.getBody()));
     }
 
     public void ownerPostClient(OwnerPostDTO newUser) {
-        restTemplate.postForEntity(USER_STORE_SERVICE_URI, newUser, OwnerPostDTO.class);
+        restTemplate.postForEntity(storeCarURI + "/user", newUser, OwnerPostDTO.class);
     }
 
     public void changeCarForSaleClient(CarPostDTO carPostDTO, String id) {
-        restTemplate.put(POSTS_STORE_SERVICE_URI + "/cars/" + id, carPostDTO, CarPostDTO.class);
+        restTemplate.put(storeCarURI + "/sales/cars/" + id, carPostDTO, CarPostDTO.class);
     }
 
     public void deleteCarForSaleClient(String id) {
-        restTemplate.delete(POSTS_STORE_SERVICE_URI + "/cars/" + id);
+        restTemplate.delete(storeCarURI + "/sales/cars/" + id);
     }
 
 }
