@@ -18,7 +18,7 @@ public class OwnerPostController {
     private OwnerPostService ownerPostService;
 
     @PostMapping
-    public ResponseEntity postOwner(@RequestBody OwnerPostDTO ownerPostDTO) {
+    public ResponseEntity<Object> postOwner(@RequestBody OwnerPostDTO ownerPostDTO) {
         ownerPostService.postOwner(ownerPostDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }

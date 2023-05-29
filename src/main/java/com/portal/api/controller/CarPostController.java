@@ -40,21 +40,21 @@ public class CarPostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity changeCarSale(@RequestBody CarPostDTO carPostDTO, @PathVariable("id") String id) {
+    public ResponseEntity<Object> changeCarSale(@RequestBody CarPostDTO carPostDTO, @PathVariable("id") String id) {
         carPostStoreService.changeCarForSale(carPostDTO, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteCarForSale(@PathVariable("id") String id) {
+    public ResponseEntity<Object> deleteCarForSale(@PathVariable("id") String id) {
         carPostStoreService.removeCarForSale(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/post")
-    public ResponseEntity postCarForSale(@Valid @RequestBody CarPostDTO carPostDTO) {
+    public ResponseEntity<Object> postCarForSale(@Valid @RequestBody CarPostDTO carPostDTO) {
         LOG.info("MAIN REST API  -> Produce Car Post information: {}", carPostDTO);
-        kafkaProducerMessage.sendMessage(carPostDTO);
+        // kafkaProducerMessage.sendMessage(carPostDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

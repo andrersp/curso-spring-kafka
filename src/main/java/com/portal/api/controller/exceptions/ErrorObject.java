@@ -1,19 +1,12 @@
 package com.portal.api.controller.exceptions;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class ErrorObject {
-    private final String fieldName;
     private final String message;
-
-    public ErrorObject(String fieldName, String message) {
-        this.fieldName = fieldName;
-        this.message = message;
-    }
-
-    public String getFieldName() {
-        return fieldName;
-    }
-
-    public String getMessage() {
-        return message;
-    }
+    private final String field;
+    private final Object parameter;
 }
