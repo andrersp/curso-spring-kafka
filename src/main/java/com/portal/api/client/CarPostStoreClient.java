@@ -1,6 +1,6 @@
 package com.portal.api.client;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.portal.api.dto.CarPostDTO;
+import com.portal.api.dto.GetCarListDTO;
 import com.portal.api.dto.OwnerPostDTO;
 
 @Component
@@ -21,10 +22,25 @@ public class CarPostStoreClient {
     @Autowired
     RestTemplate restTemplate;
 
-    public List<CarPostDTO> carForSalesClient() {
+    public List<GetCarListDTO> carForSalesClient() {
         ResponseEntity<CarPostDTO[]> responseEntity = restTemplate.getForEntity(storeCarURI + "/sales/cars",
                 CarPostDTO[].class);
-        return Arrays.asList(Objects.requireNonNull(responseEntity.getBody()));
+
+        List<GetCarListDTO> response = new ArrayList<>();
+
+        for (CarPostDTO car : Objects.requireNonNull(responseEntity.getBody())) {
+
+            GetCarListDTO carResponse = GetCarListDTO.builder()
+                    .brand(car.getBrand())
+                    .price(car.getPrice())
+                    .model(car.getModel())
+                    .id(car.getId())
+                    .build();
+            response.add(carResponse);
+
+        }
+
+        return response;
     }
 
     public void ownerPostClient(OwnerPostDTO newUser) {

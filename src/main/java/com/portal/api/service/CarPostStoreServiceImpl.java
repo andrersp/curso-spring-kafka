@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.portal.api.client.CarPostStoreClient;
 import com.portal.api.dto.CarPostDTO;
+import com.portal.api.dto.GetCarListDTO;
 
 @Service
 public class CarPostStoreServiceImpl implements CarPostStoreService {
@@ -15,7 +16,7 @@ public class CarPostStoreServiceImpl implements CarPostStoreService {
     private CarPostStoreClient carPostStoreClient;
 
     @Override
-    public List<CarPostDTO> getCarForSales() {
+    public List<GetCarListDTO> getCarForSales() {
         return carPostStoreClient.carForSalesClient();
     }
 

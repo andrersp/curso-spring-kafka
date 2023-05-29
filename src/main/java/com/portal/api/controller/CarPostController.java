@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.portal.api.dto.CarPostDTO;
+import com.portal.api.dto.GetCarListDTO;
 import com.portal.api.message.KafkaProducerMessage;
 import com.portal.api.service.CarPostStoreService;
 
@@ -35,7 +36,7 @@ public class CarPostController {
     private KafkaProducerMessage kafkaProducerMessage;
 
     @GetMapping("/posts")
-    public ResponseEntity<List<CarPostDTO>> getCarSales() {
+    public ResponseEntity<List<GetCarListDTO>> getCarSales() {
         return ResponseEntity.status(HttpStatus.OK).body(carPostStoreService.getCarForSales());
     }
 
@@ -54,7 +55,7 @@ public class CarPostController {
     @PostMapping("/post")
     public ResponseEntity<Object> postCarForSale(@Valid @RequestBody CarPostDTO carPostDTO) {
         LOG.info("MAIN REST API  -> Produce Car Post information: {}", carPostDTO);
-        // kafkaProducerMessage.sendMessage(carPostDTO);
+        kafkaProducerMessage.sendMessage(carPostDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
