@@ -39,7 +39,7 @@ public class CarPostDTO {
     private String createdDate;
 
     @Min(value = 1)
-    @NotNull
+    @NotNull(message = "required")
     private Long ownerId;
 
     private String ownerName;
