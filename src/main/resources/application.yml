@@ -3,3 +3,12 @@ server:
 spring:
   application:
     name: ApiGateway
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /docs/index.html
+    enabled: true
+    use-root-path: true
+  default-produces-media-type: application/json

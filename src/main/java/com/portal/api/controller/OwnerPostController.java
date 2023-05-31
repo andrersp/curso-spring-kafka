@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.portal.api.dto.OwnerPostDTO;
 import com.portal.api.service.OwnerPostService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Proprietário")
 @RestController
 @RequestMapping("/owner")
 public class OwnerPostController {
@@ -18,9 +21,8 @@ public class OwnerPostController {
     private OwnerPostService ownerPostService;
 
     @PostMapping
-    public ResponseEntity<Object> postOwner(@RequestBody OwnerPostDTO ownerPostDTO) {
+    public ResponseEntity<?> postOwner(@RequestBody OwnerPostDTO ownerPostDTO) {
         ownerPostService.postOwner(ownerPostDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }

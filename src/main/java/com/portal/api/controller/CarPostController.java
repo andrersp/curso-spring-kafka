@@ -21,8 +21,14 @@ import com.portal.api.dto.GetCarListDTO;
 import com.portal.api.message.KafkaProducerMessage;
 import com.portal.api.service.CarPostStoreService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+@Tag(name = "Veiculos", description = "Endpoint de consulta e cadastro de veiculos")
 @RestController
 @RequestMapping("/api/car")
 public class CarPostController {
@@ -41,19 +47,23 @@ public class CarPostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> changeCarSale(@RequestBody CarPostDTO carPostDTO, @PathVariable("id") String id) {
+    public ResponseEntity<?> changeCarSale(@RequestBody CarPostDTO carPostDTO, @PathVariable("id") String id) {
         carPostStoreService.changeCarForSale(carPostDTO, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteCarForSale(@PathVariable("id") String id) {
+    @Operation(summary = "Deleta um veiculo", description = "Endpoint para deletar um veiculo", responses = {
+            @ApiResponse(responseCode = "204", content = @Content(schema = @Schema(hidden = true)))
+
+    })
+    public ResponseEntity<?> deleteCarForSale(@PathVariable("id") String id) {
         carPostStoreService.removeCarForSale(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/post")
-    public ResponseEntity<Object> postCarForSale(@Valid @RequestBody CarPostDTO carPostDTO) {
+    public ResponseEntity<?> postCarForSale(@Valid @RequestBody CarPostDTO carPostDTO) {
         LOG.info("MAIN REST API  -> Produce Car Post information: {}", carPostDTO);
         kafkaProducerMessage.sendMessage(carPostDTO);
         return new ResponseEntity<>(HttpStatus.OK);
