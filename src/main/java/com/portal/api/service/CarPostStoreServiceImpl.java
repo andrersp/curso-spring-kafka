@@ -33,4 +33,9 @@ public class CarPostStoreServiceImpl implements CarPostStoreService {
 
     }
 
+    @Override
+    public CarPostDTO getCarByID(String id) {
+        return carPostStoreClient.getCarByID(id);
+    }
+
 }

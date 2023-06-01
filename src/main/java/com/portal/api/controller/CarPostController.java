@@ -30,7 +30,7 @@ import jakarta.validation.Valid;
 
 @Tag(name = "Veiculos", description = "Endpoint de consulta e cadastro de veiculos")
 @RestController
-@RequestMapping("/api/car")
+@RequestMapping("/car")
 public class CarPostController {
 
     private final Logger LOG = LoggerFactory.getLogger(CarPostController.class);
@@ -41,9 +41,18 @@ public class CarPostController {
     @Autowired
     private KafkaProducerMessage kafkaProducerMessage;
 
-    @GetMapping("/posts")
+    @GetMapping
     public ResponseEntity<List<GetCarListDTO>> getCarSales() {
         return ResponseEntity.status(HttpStatus.OK).body(carPostStoreService.getCarForSales());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CarPostDTO> getCarById(@PathVariable("id") String id) {
+
+        CarPostDTO car = carPostStoreService.getCarByID(id);
+
+        return ResponseEntity.ok(car);
+
     }
 
     @PutMapping("/{id}")
@@ -62,7 +71,7 @@ public class CarPostController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/post")
+    @PostMapping
     public ResponseEntity<?> postCarForSale(@Valid @RequestBody CarPostDTO carPostDTO) {
         LOG.info("MAIN REST API  -> Produce Car Post information: {}", carPostDTO);
         kafkaProducerMessage.sendMessage(carPostDTO);

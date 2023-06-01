@@ -55,4 +55,15 @@ public class CarPostStoreClient {
         restTemplate.delete(storeCarURI + "/sales/cars/" + id);
     }
 
+    public CarPostDTO getCarByID(String id) {
+
+        ResponseEntity<CarPostDTO> responseEntity = restTemplate.getForEntity(storeCarURI + "/car/" + id,
+                CarPostDTO.class);
+
+        CarPostDTO car = Objects.requireNonNull(responseEntity.getBody());
+
+        return car;
+
+    }
+
 }

@@ -16,4 +16,6 @@ public interface CarPostStoreService {
 
     void removeCarForSale(String id);
 
+    CarPostDTO getCarByID(String id);
+
 }

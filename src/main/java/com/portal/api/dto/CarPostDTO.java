@@ -2,9 +2,11 @@ package com.portal.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +24,7 @@ public class CarPostDTO {
     @NotBlank(message = "model required")
     private String model;
 
+    @Schema(example = "GM")
     @NotBlank(message = "brand required")
     private String brand;
 
@@ -29,7 +32,8 @@ public class CarPostDTO {
     private Double price;
 
     @NotBlank(message = "description required")
-    @Min(value = 10, message = "min lenght")
+    @Size(min = 5)
+    @Schema(example = "Description")
     private String description;
 
     private String engineVersion;
